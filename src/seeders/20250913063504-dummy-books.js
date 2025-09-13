@@ -4,36 +4,36 @@ const { v4: uuidv4 } = require("uuid")
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert("books", [
       {
         id: uuidv4(),
-        title: "Clean Code",
-        author: "Robert C. Martin",
-        year: 2008,
+        title: "Animal Farm",
+        author: "George Orwell",
+        year: 1945,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         id: uuidv4(),
-        title: "Test-Driven Development",
-        author: "Kent Beck",
-        year: 2003,
+        title: "Sang Pemimpi",
+        author: "Andrea Hirata",
+        year: 2006,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         id: uuidv4(),
-        title: "Refactoring",
-        author: "Martin Fowler",
-        year: 1999,
+        title: "Bumi Manusia",
+        author: "Pramoedya Ananta Toer",
+        year: 1980,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
     ])
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     await queryInterface.bulkDelete("books", null, {})
   }
 }
