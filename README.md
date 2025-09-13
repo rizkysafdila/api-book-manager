@@ -20,11 +20,12 @@ cd api-book-manager
 pnpm install
 ```
 
-### 3. Run the migrations
+### 3. Run the migration and seeder
 Make sure you have MySQL running, then run:
 ```bash
 npx sequelize-cli db:create
 npx sequelize-cli db:migrate
+npx sequelize-cli db:seed:all
 ```
 
 ### 4. Run the project
