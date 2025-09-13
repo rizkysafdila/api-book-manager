@@ -1,64 +1,66 @@
-import { Request, Response } from "express";
-import { errorResponse, successResponse } from "../utils/helpers";
-import { BookService } from "../services/book.service";
+import { NextFunction, Request, Response } from "express"
+import { errorResponse, successResponse } from "../utils/helpers"
+import { BookService } from "../services/book.service"
+import logger from "../configs/logger"
+import { UUID } from "crypto"
 
 export class BookController {
-  static async getAll(req: Request, res: Response) {
+  static async getAll(req: Request, res: Response, next: NextFunction) {
     try {
-      const filters = req.query;
-      const books = await BookService.getAllBooks(filters);
-      res.json(successResponse(books, "Books fetched successfully"));
+      const filters = req.query
+      const books = await BookService.getAllBooks(filters)
+      res.json(successResponse(books, "Books fetched successfully"))
     } catch (error) {
-      res.status(500).json(errorResponse("Error fetching books", error));
+      next(error)
     }
   }
 
-  static async getById(req: Request, res: Response) {
+  static async getById(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.params;
-      const book = await BookService.getBookById(Number(id));
+      const { id } = req.params
+      const book = await BookService.getBookById(id as UUID)
       if (!book) {
-        return res.status(404).json(errorResponse("Book not found"));
+        return res.status(404).json(errorResponse("Book not found"))
       }
-      res.json(successResponse(book, "Book fetched successfully"));
+      res.json(successResponse(book, "Book fetched successfully"))
     } catch (error) {
-      res.status(500).json(errorResponse("Error fetching book", error));
+      next(error)
     }
   }
 
-  static async create(req: Request, res: Response) {
+  static async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const { title, author, year } = req.body;
-      const newBook = await BookService.createBook({ title, author, year });
-      res.status(201).json(successResponse(newBook, "Book created successfully"));
+      const { title, author, year } = req.body
+      const newBook = await BookService.createBook({ title, author, year })
+      res.status(201).json(successResponse(newBook, "Book created successfully"))
     } catch (error) {
-      res.status(400).json(errorResponse("Error creating book", error));
+      next(error)
     }
   }
 
-  static async update(req: Request, res: Response) {
+  static async update(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.params;
-      const updatedBook = await BookService.updateBook(Number(id), req.body);
+      const { id } = req.params
+      const updatedBook = await BookService.updateBook(id as UUID, req.body)
       if (!updatedBook) {
-        return res.status(404).json(errorResponse("Book not found"));
+        return res.status(404).json(errorResponse("Book not found"))
       }
-      res.json(successResponse(updatedBook, "Book updated successfully"));
+      res.json(successResponse(updatedBook, "Book updated successfully"))
     } catch (error) {
-      res.status(400).json(errorResponse("Error updating book", error));
+      next(error)
     }
   }
 
-  static async delete(req: Request, res: Response) {
+  static async delete(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.params;
-      const deletedBook = await BookService.deleteBook(Number(id));
+      const { id } = req.params
+      const deletedBook = await BookService.deleteBook(id as UUID)
       if (!deletedBook) {
-        return res.status(404).json(errorResponse("Book not found"));
+        return res.status(404).json(errorResponse("Book not found"))
       }
-      res.json(successResponse(null, "Book deleted successfully"));
+      res.json(successResponse(null, "Book deleted successfully"))
     } catch (error) {
-      res.status(500).json(errorResponse("Error deleting book", error));
+      next(error)
     }
   }
 }

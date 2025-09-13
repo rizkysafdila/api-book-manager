@@ -1,4 +1,4 @@
-import { ApiResponse } from "../types";
+import { ApiResponse } from "../types"
 
 export const successResponse = <T>(
   data: T,
@@ -7,13 +7,13 @@ export const successResponse = <T>(
   success: true,
   message,
   data,
-});
+})
 
-export const errorResponse = (
+export const errorResponse = <T>(
   message = "Request failed",
   error?: any
-): ApiResponse => ({
+): ApiResponse<T> => ({
   success: false,
   message,
   error,
-});
+})

@@ -1,23 +1,13 @@
-module.exports = {
-  development: {
-    username: "root",
-    password: null,
-    database: "book_manager",
-    host: "127.0.0.1",
-    dialect: "mysql",
-  },
-  test: {
-    username: "root",
-    password: null,
-    database: "book_manager_test",
-    host: "127.0.0.1",
-    dialect: "mysql",
-  },
-  production: {
-    username: "root",
-    password: null,
-    database: "book_manager_prod",
-    host: "127.0.0.1",
-    dialect: "mysql",
-  },
-};
+import { Sequelize } from 'sequelize'
+import { envConfig } from './env'
+import { SequelizeDialect } from '../types'
+
+export const sequelize = new Sequelize({
+  dialect: envConfig.DIALECT as SequelizeDialect,
+  host: envConfig.DATABASE_HOST,
+  port: Number(envConfig.DATABASE_PORT),
+  username: envConfig.DATABASE_USERNAME,
+  password: envConfig.DATABASE_PASSWORD,
+  database: envConfig.DATABASE_NAME,
+  logging: false,
+})

@@ -1,36 +1,31 @@
-import { DataTypes, Model, Optional } from "sequelize"
-import { sequelize } from "../configs/database"
+import { DataTypes, Model, Optional } from "sequelize";
+import { sequelize } from "../configs/sequelize";
+import { IBook } from "../types/book.type";
 
-interface BookAttributes {
-  id: number
-  title: string
-  author: string
-  year: number
-}
+interface BookCreationAttributes extends Optional<IBook, "id"> {}
 
-interface BookCreationAttributes extends Optional<BookAttributes, "id"> {}
-
-export class Book extends Model<BookAttributes, BookCreationAttributes>
-  implements BookAttributes {
-  public id!: number
-  public title!: string
-  public author!: string
-  public year!: number
+export class Book extends Model<IBook, BookCreationAttributes> implements IBook {
+  public id!: string;
+  public title!: string;
+  public author!: string;
+  public year!: number;
+  // public readonly createdAt!: Date;
+  // public readonly updatedAt!: Date;
 }
 
 Book.init(
   {
     id: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      autoIncrement: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
     title: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(100),
       allowNull: false,
     },
     author: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(100),
       allowNull: false,
     },
     year: {
@@ -42,6 +37,5 @@ Book.init(
     sequelize,
     modelName: "Book",
     tableName: "books",
-    timestamps: true,
   }
-)
+);
