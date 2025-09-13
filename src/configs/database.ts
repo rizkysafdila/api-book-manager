@@ -6,6 +6,7 @@ export const connectDB = async () => {
     await sequelize.authenticate()
     logger.info("✅ MySQL connected")
   } catch (error) {
+    await sequelize.close()
     logger.error("❌ DB connection failed:", error)
     process.exit(1)
   }

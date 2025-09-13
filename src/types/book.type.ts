@@ -3,8 +3,8 @@ export interface IBook {
   title: string
   author: string
   year: number
-  // createdAt: string
-  // updatedAt: string
+  createdAt: Date
+  updatedAt: Date
 }
 
-export type TBookPayload = Omit<IBook, 'id'>
+export type TBookPayload = Omit<IBook, 'id' | 'createdAt' | 'updatedAt'>

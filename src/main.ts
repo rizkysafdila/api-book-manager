@@ -5,6 +5,7 @@ import logger from "./configs/logger"
 import morganMiddleware from "./middlewares/morgan"
 import errorMiddleware from "./middlewares/error"
 import router from "./routes"
+import { envConfig } from "./configs/env"
 
 dotenv.config()
 const app = express()
@@ -17,13 +18,10 @@ app.use(express.urlencoded({ extended:true }))
 app.use('/api', router)
 app.use(errorMiddleware)
 
-const PORT = process.env.PORT || 4000
-const BASE_URL = process.env.APP_URL
-
 const start = async () => {
   await connectDB()
-  app.listen(PORT, () => {
-    logger.info(`🚀 Server running at ${BASE_URL}:${PORT}`)
+  app.listen(envConfig.APP_PORT, () => {
+    logger.info(`🚀 Server running at ${envConfig.APP_URL}:${envConfig.APP_PORT}`)
   })
 }
 
